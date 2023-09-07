@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+import Appbar from "../components/layout/Appbar";
+import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <>
+      <Appbar />
+      <Component {...pageProps} />
+    </>
+  );
 }
 
-export default MyApp
+export default MyApp;

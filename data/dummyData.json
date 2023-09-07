@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "title": "InterviewMe",
+    "body": "Built with GPT-3, React, and Flask. Practice interviews with AI and ace your next interview.",
+    "pic": "/InterviewMe.png",
+    "date": "2023-09-01",
+    "type": "fav"
+  },
+  {
+    "id": 2,
+    "title": "Lorem Ipsum",
+    "body": "Lorem ipsum dolor sit amet consectetur. Auctor nibh eleifend tempus egestas libero tristique nec.",
+    "pic": "/Loremipsum.png",
+    "date": "2023-08-30",
+    "type": ""
+  },
+  {
+    "id": 3,
+    "title": "Potter Ipsum",
+    "body": "Potter ipsum wand elf parchment wingardium. Ghost glass hall tears hair must train. Snape alohamora bathrooms.",
+    "pic": "/Officeipsum.png",
+    "date": "2023-08-15",
+    "type": ""
+  },
+  {
+    "id": 4,
+    "title": "Figma Ipsum",
+    "body": "Figma ipsum component variant main layer. Blur hand object thumbnail subtract flows font bold image. Font.",
+    "pic": "/Figmaipsum.png",
+    "date": "2023-08-12",
+    "type": ""
+  },
+  {
+    "id": 5,
+    "title": "Pizza Impsum",
+    "body": "Pizza ipsum dolor meat lovers buffalo. Burnt melted NY.",
+    "pic": "/PizzaIpsum.png",
+    "date": "2023-08-10",
+    "type": ""
+  },
+  {
+    "id": 6,
+    "title": "Office Ipsum",
+    "body": "Office ipsum you must be muted.",
+    "pic": "/Potteripsum.png",
+    "date": "2023-08-05",
+    "type": ""
+  }
+]

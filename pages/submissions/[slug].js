@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+
 export default function Submission() {
   const router = useRouter();
   const [found, setFound] = useState();
@@ -47,7 +48,7 @@ export default function Submission() {
     event.preventDefault();
     try {
       await fetch(`http://localhost:3004/submissions/${slug}`, {
-        method: "Delete",
+        method: "DELETE",
         headers: {
           "Content-type": "application/json",
         },
@@ -117,7 +118,12 @@ export default function Submission() {
           </div>
         </div>
         <div className="flex flex-col  gap-4 items-center">
-          <button className="w-[120px] h-[40px] rounded-[10px] border-[1px] border-[#fff] text-[#ffffff] px-[18px] py-[6px] flex items-center text-base gap-2">
+          <button
+            className="w-[120px] h-[40px] rounded-[10px] border-[1px] border-[#fff] text-[#ffffff] px-[18px] py-[6px] flex items-center text-base gap-2"
+            onClick={() => {
+              router.push(`/submissions/edit/${found?.id}`);
+            }}
+          >
             <svg
               width="24"
               height="24"
@@ -161,7 +167,7 @@ export default function Submission() {
           <div className="flex flex-col gap-3 ">
             <p className="text-lg text-[#858585]">Hackathon</p>
             <h3 className="text-xl text-[#333333] font-medium">
-              Prestige Interview Challenge
+              {found?.hName}
             </h3>
             <p className="text-sm text-[#858585] font-medium flex items-center gap-1">
               <svg

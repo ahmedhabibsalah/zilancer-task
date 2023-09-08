@@ -1,7 +1,9 @@
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function Hero() {
+  const router = useRouter();
   return (
     <section className="relative ">
       <div className="flex min-h-[416px] bg-[#003145] px-32 items-center gap-16 flex-wrap text-white py-4">
@@ -13,7 +15,12 @@ export default function Hero() {
             duis porta turpis eget suspendisse ac pharetra amet. Vel nisl tempus
             nec vitae.{" "}
           </p>
-          <button className="bg-[#44924C] py-3 px-[18px] rounded-[10px] w-[194px] h-[52px]">
+          <button
+            className="bg-[#44924C] py-3 px-[18px] rounded-[10px] w-[194px] h-[52px]"
+            onClick={() => {
+              router.push(`/upload`);
+            }}
+          >
             Upload Submissions
           </button>
         </div>

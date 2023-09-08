@@ -1,51 +1,53 @@
+import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
-export default function Upload() {
+export default function EditOne() {
   const router = useRouter();
+  const slug = router.query.slug;
+  const [data, setData] = useState({});
 
-  const [data, setData] = useState({
-    id: Math.floor(Math.random() * 1000) + 1,
-    title: "",
-    body: "",
-    pic: "",
-    date: "",
-    type: false,
-    description: "",
-    github: "",
-    other: "",
-    end: "",
-    hName: "",
-  });
+  useEffect(() => {
+    if (router.isReady) {
+      fetch(`http://localhost:3004/submissions/${slug}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setData(data);
+        });
+    }
+  }, [router.isReady]);
 
-  const addSubmission = async (event) => {
+  const EditSubmission = async (event) => {
     event.preventDefault();
     let requestBody = {
       ...data,
     };
 
     try {
-      await fetch(`http://localhost:3004/submissions`, {
-        method: "POST",
+      await fetch(`http://localhost:3004/submissions/${slug}`, {
+        method: "PUT",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify(requestBody),
       }).then(() => {
         alert("Data Added Successfully");
-        router.push("/");
+        router.push(`/submissions/${slug}`);
       });
     } catch (e) {
       console.error(e);
     }
   };
-
+  useEffect(() => {
+    console.log(data);
+  }, []);
   return (
     <div className="bg-[#F8F9FD] px-32 py-4">
       <div className="w-full max-w-4xl">
         <form
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-          onSubmit={addSubmission}
+          onSubmit={EditSubmission}
         >
           <div className="mb-4">
             <label
@@ -119,7 +121,7 @@ export default function Upload() {
                 </label>
                 <div className="flex items-center justify-center w-full max-w-[706px]">
                   <label className="flex flex-col w-full h-20 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
-                    <div className="flex flex-col items-center justify-center pt-7 ">
+                    <div className="flex justify-between px-4  pt-7 relative overflow-hidden h-[60px] w-[60px]">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-8 h-8 text-gray-400 group-hover:text-gray-600 "
@@ -132,11 +134,17 @@ export default function Upload() {
                           clipRule="evenodd"
                         />
                       </svg>
+                      <Image
+                        src={data.pic}
+                        alt={data.title}
+                        layout="fill"
+                        objectFit="cover"
+                      />
                     </div>
                     <input
                       type="file"
                       className="opacity-0"
-                      required
+                      src={data.pic}
                       onChange={(e) => {
                         setData({
                           ...data,
@@ -250,7 +258,7 @@ export default function Upload() {
               className="bg-[#44924C] py-3 px-[18px] rounded-[10px] w-[192px] h-[52px] text-white font-semibold "
               type="submit"
             >
-              Upload Submission
+              Update Submission
             </button>
           </div>
         </form>

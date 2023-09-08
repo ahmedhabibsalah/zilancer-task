@@ -179,11 +179,24 @@ export default function Main() {
                   </div>
                   <p className="text-base text-[#333333]">{item.body}</p>
                   <p className="self-end text-sm text-[#666666] absolute bottom-4">
-                    Uploaded{" "}
                     {Math.floor(
                       (new Date() - new Date(item.date)) / 1000 / 60 / 60 / 24
-                    )}{" "}
-                    days ago
+                    ) < 0 ? (
+                      <>UPComing</>
+                    ) : (
+                      <>
+                        {" "}
+                        Uploaded{" "}
+                        {Math.floor(
+                          (new Date() - new Date(item.date)) /
+                            1000 /
+                            60 /
+                            60 /
+                            24
+                        )}{" "}
+                        days ago
+                      </>
+                    )}
                   </p>
                 </div>
               ))}

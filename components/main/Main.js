@@ -1,6 +1,6 @@
 import Image from "next/image";
-import React, { useState } from "react";
-import data from "../../data/dummyData.json";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const options = [
   { id: 1, value: "All Submissions", type: "submissions" },
@@ -8,30 +8,47 @@ const options = [
 ];
 
 export default function Main() {
+  const router = useRouter();
+
   const [active, setActive] = useState("submissions");
-  const [filteredList, setFilteredList] = useState(data);
+  const [data, setData] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [searchDate, setSearchDate] = useState("newest");
-
-  const filtered = data.filter(() => {
-    if (searchDate === "newest") {
-      return data?.sort((x, y) => new Date(y.date) - new Date(x.date));
-    } else if (searchDate === "oldest") {
-      return data?.sort((x, y) => new Date(x.date) - new Date(y.date));
-    }
-  });
+  useEffect(() => {
+    fetch("http://localhost:3004/submissions")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setData(data);
+        setFilteredList(data);
+        console.log(filteredList);
+      });
+  }, []);
 
   const handleSearch = (event) => {
     const query = event.target.value;
     const date = event.target.value;
     setSearchQuery(query);
 
-    const searchList = filtered.filter((item) => {
-      return item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+    const searchList = data?.filter((item) => {
+      if (searchDate === "newest") {
+        return (
+          data?.sort((x, y) => new Date(y.date) - new Date(x.date)) &&
+          item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        );
+      } else if (searchDate === "oldest") {
+        return (
+          data?.sort((x, y) => new Date(x.date) - new Date(y.date)) &&
+          item.title.toLowerCase().indexOf(query.toLowerCase()) !== -1
+        );
+      }
     });
 
     setFilteredList(searchList);
   };
+
   const handleChangeDate = (event) => {
     setSearchDate(event.target.value);
   };
@@ -39,10 +56,11 @@ export default function Main() {
     const result = e.target.value;
     setActive(result);
   };
+
   return (
     <div className="bg-[#F8F9FD] px-32 py-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-6">
+      <div className="flex items-center justify-between flex-wrap">
+        <div className="flex items-center gap-6 flex-wrap">
           {options.map((item) => (
             <button
               key={item.id}
@@ -107,8 +125,11 @@ export default function Main() {
           <>
             {filteredList?.map((item) => (
               <div
-                className="sm:w-[360px] w-[300px] h-[290px] rounded-[16px] p-6 flex flex-col gap-6 shadow-md bg-[#ffffff] relative overflow-auto"
+                className="sm:w-[360px] w-[300px] h-[290px] rounded-[16px] p-6 flex flex-col gap-6 shadow-md bg-[#ffffff] relative overflow-auto cursor-pointer"
                 key={item.id}
+                onClick={() => {
+                  router.push(`/submissions/${item.id}`);
+                }}
               >
                 <div className="flex items-center gap-4">
                   <div className="relative rounded-[8px] overflow-hidden h-[100px] w-[100px]">
@@ -137,7 +158,7 @@ export default function Main() {
         ) : (
           <>
             {filteredList
-              ?.filter((curr) => curr.type === "fav")
+              ?.filter((curr) => curr.type === true)
               .map((item) => (
                 <div
                   className="sm:w-[360px] w-[300px] h-[290px] rounded-[16px] p-6 flex flex-col gap-6 shadow-md bg-[#ffffff] relative overflow-auto"
